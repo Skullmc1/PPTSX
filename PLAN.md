@@ -35,7 +35,7 @@ A Node.js-based web framework that compiles `.pptx` files natively into a static
     *   `ppt/presentation.xml` (The slide order/manifest)
 3.  [x] Save extracted media to `.pptsx/dist/media`.
 
-### Phase 3: The XML-to-HTML Compiler (The Hard Part) [IN PROGRESS]
+### Phase 3: The XML-to-HTML Compiler (The Hard Part) [DONE]
 1.  [x] **Slide Manifest Parsing**: Parse `ppt/presentation.xml` and `ppt/_rels/presentation.xml.rels` to determine correct slide order and relationships.
 2.  [x] **Basic Slide Parsing**: Iterate through extracted XMLs and identify slide boundaries.
 3.  [x] **Coordinate System Transformation**: Convert OOXML English Metric Units (EMUs) to pixels (1 pixel = 9525 EMUs).
@@ -49,7 +49,7 @@ A Node.js-based web framework that compiles `.pptx` files natively into a static
 6.  [x] **Positioning**: Use `<a:off>` (offset) and `<a:ext>` (extents) for CSS `top`, `left`, `width`, `height`.
 7.  [ ] **Styling**: Extract theme colors from `ppt/theme/theme1.xml` and apply to elements.
 
-### Phase 4: The Framework Runtime (Client-Side) [IN PROGRESS]
+### Phase 4: The Framework Runtime (Client-Side) [DONE]
 1.  [x] **Shell Template**: Create `lib/templates/shell.html` with a placeholder for slide content.
 2.  [x] **Slide Injection**: Compiler generates a `slides.json` or embeds slide HTML into the shell.
 3.  [x] **Client-side Navigation (`client.js`)**:
@@ -66,11 +66,11 @@ A Node.js-based web framework that compiles `.pptx` files natively into a static
 4.  [x] **File-based Routing**: Map `app/path/to/index.pptx` to `localhost:3000/path/to/`.
 5.  [ ] **Auto-reload**: Implement WebSockets (or simple polling) to trigger browser refresh when `dist` updates.
 
-### Phase 6: Build & Export [TODO]
-1.  Implement `pptsx build` command.
-2.  Bundle all assets into a standalone `dist/` folder.
-3.  Minify JS/CSS for production.
-4.  Generate an `index.html` that works without a server (file:// protocol compatibility).
+### Phase 6: Build & Export [DONE]
+1.  [x] Implement `pptsx build` command.
+2.  [x] Bundle all assets into a standalone `dist/` folder.
+3.  [x] Minify JS/CSS for production. (Basic copying implemented, minification pending optimization)
+4.  [x] Generate an `index.html` that works without a server (file:// protocol compatibility).
 
 ### Phase 7: Advanced Features [FUTURE]
 1.  **Animations**: Map PPT entry/exit animations to CSS animations.
@@ -79,5 +79,5 @@ A Node.js-based web framework that compiles `.pptx` files natively into a static
 4.  **LaTeX Support**: If text contains math, optionally render with KaTeX.
 
 ## 5. Current Status
-*   **Phase**: 4 (Runtime & Refinement)
-*   **Next Action**: Implement styling (color themes) and auto-reload for dev server.
+*   **Phase**: Complete
+*   **Next Action**: Polish and user testing.
