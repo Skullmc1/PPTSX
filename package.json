@@ -1,0 +1,22 @@
+{
+  "name": "pptsx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "pptsx": "./bin/pptsx.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^5.0.0",
+    "express": "^5.2.1",
+    "fast-xml-parser": "^5.3.3",
+    "jszip": "^3.10.1"
+  }
+}
