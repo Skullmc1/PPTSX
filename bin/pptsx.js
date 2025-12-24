@@ -3,6 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { Compiler } from '../lib/compiler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,8 +27,35 @@ if (command === 'dev') {
   import('../lib/dev.js').then(module => module.startDevServer());
 } else if (command === 'build') {
   console.log('Building project...');
-  // import('../lib/build.js').then(module => module.buildProject());
-  console.log('Build command not implemented yet.');
+  
+  const appDir = path.join(process.cwd(), 'app');
+  const distDir = path.join(process.cwd(), '.pptsx/dist');
+  
+  if (!fs.existsSync(appDir)) {
+      console.error("Error: 'app' directory not found.");
+      process.exit(1);
+  }
+
+  // Recursive find index.pptx
+  async function buildRecursive(dir) {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+              await buildRecursive(fullPath);
+          } else if (entry.isFile() && entry.name === 'index.pptx') {
+              const relativeDir = path.dirname(path.relative(appDir, fullPath));
+              const targetDir = path.join(distDir, relativeDir);
+              const compiler = new Compiler(fullPath, targetDir);
+              await compiler.compile();
+          }
+      }
+  }
+
+  buildRecursive(appDir).then(() => {
+      console.log('Build complete.');
+  });
+
 } else {
   console.log(`Unknown command: ${command}`);
 }

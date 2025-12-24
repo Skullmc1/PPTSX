@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPTSX Presentation</title>
+    <style>
+        body, html { margin: 0; padding: 0; overflow: hidden; background: #000; width: 100vw; height: 100vh; font-family: sans-serif; }
+        #slide-container {
+            position: relative;
+            width: 100%; /* Will be set by JS or CSS to match aspect ratio */
+            height: 100%; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .slide {
+            position: relative;
+            background: white;
+            display: none; /* Hidden by default */
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .slide.active {
+            display: block;
+        }
+        .slide-element {
+            position: absolute;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="slide-container">
+        <!-- SLIDES_INJECTED_HERE -->
+    </div>
+    <script src="client.js"></script>
+</body>
+</html>
