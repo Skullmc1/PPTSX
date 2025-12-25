@@ -82,8 +82,12 @@ You can test the validation steps locally:
 # Test package.json validation
 node -e "const pkg = require('./package.json'); console.log('✓ Package valid:', pkg.name, pkg.version)"
 
-# Test CLI
-node bin/pptsx.js
+# Test CLI help
+node bin/pptsx.js --help
+# or
+node bin/pptsx.js -h
+# or
+node bin/pptsx.js help
 ```
 
 ## 🛠️ Quick Start

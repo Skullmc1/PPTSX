@@ -13,13 +13,16 @@ const command = args[0];
 
 console.log(`PPTSX CLI - v1.0.0`);
 
-if (!command) {
+if (!command || command === '--help' || command === '-h' || command === 'help') {
   console.log('Usage: pptsx [command]');
+  console.log('');
   console.log('Commands:');
   console.log('  dev                     Start the development server');
   console.log('  build                   Build the project for production');
   console.log('  icon <path/to/icon.png> Set the favicon for the project');
-  process.exit(1);
+  console.log('  --help, -h, help        Show this help message');
+  // Exit with 0 for help/version info (common practice)
+  process.exit(0);
 }
 
 // Simple routing for now

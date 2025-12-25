@@ -41,7 +41,7 @@ jobs:
           "
         
       - name: Test CLI help
-        run: node bin/pptsx.js
+        run: node bin/pptsx.js --help
         
       - name: Publish to npm
         run: npm publish
