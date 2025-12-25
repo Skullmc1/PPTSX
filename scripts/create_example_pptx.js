@@ -1,17 +1,20 @@
-import fs from 'fs';
-import path from 'path';
-import JSZip from 'jszip';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import JSZip from "jszip";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Simple PPTX generator using JSZip
-async function createExamplePptx(outputPath, title, subtitle, backgroundColor = 'FFFFFF') {
-    const zip = new JSZip();
-    
-    // 1. Create [Content_Types].xml
-    const contentTypes = `<?xml version="1.0" encoding="UTF-8"?>
+async function createExamplePptx(
+  outputPath,
+  title,
+  subtitle,
+  backgroundColor = "FFFFFF",
+) {
+  const zip = new JSZip();
+
+  const contentTypes = `<?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
   <Default Extension="xml" ContentType="application/xml" />
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml" />
@@ -21,17 +24,15 @@ async function createExamplePptx(outputPath, title, subtitle, backgroundColor = 
   <Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml" />
   <Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml" />
 </Types>`;
-    zip.file("[Content_Types].xml", contentTypes);
-    
-    // 2. Create _rels/.rels
-    const rels = `<?xml version="1.0" encoding="UTF-8"?>
+  zip.file("[Content_Types].xml", contentTypes);
+
+  const rels = `<?xml version="1.0" encoding="UTF-8"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml" />
 </Relationships>`;
-    zip.folder("_rels").file(".rels", rels);
-    
-    // 3. Create ppt/presentation.xml
-    const presentation = `<?xml version="1.0" encoding="UTF-8"?>
+  zip.folder("_rels").file(".rels", rels);
+
+  const presentation = `<?xml version="1.0" encoding="UTF-8"?>
 <p:presentation xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <p:sldMasterIdLst>
     <p:sldMasterId id="2147483648" r:id="rId1" />
@@ -41,16 +42,14 @@ async function createExamplePptx(outputPath, title, subtitle, backgroundColor = 
   </p:sldIdLst>
   <p:sldSz cx="9144000" cy="5143500" />
 </p:presentation>`;
-    
-    // 4. Create ppt/_rels/presentation.xml.rels
-    const presRels = `<?xml version="1.0" encoding="UTF-8"?>
+
+  const presRels = `<?xml version="1.0" encoding="UTF-8"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="slideMasters/slideMaster1.xml" />
   <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide1.xml" />
 </Relationships>`;
-    
-    // 5. Create ppt/slides/slide1.xml
-    const slide = `<?xml version="1.0" encoding="UTF-8"?>
+
+  const slide = `<?xml version="1.0" encoding="UTF-8"?>
 <p:sld xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <p:cSld>
     <p:bg>
@@ -116,9 +115,8 @@ async function createExamplePptx(outputPath, title, subtitle, backgroundColor = 
     </p:spTree>
   </p:cSld>
 </p:sld>`;
-    
-    // 6. Create ppt/slideLayouts/slideLayout1.xml
-    const slideLayout = `<?xml version="1.0" encoding="UTF-8"?>
+
+  const slideLayout = `<?xml version="1.0" encoding="UTF-8"?>
 <p:sldLayout xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" type="title">
   <p:cSld name="Title Slide">
     <p:bg>
@@ -128,9 +126,8 @@ async function createExamplePptx(outputPath, title, subtitle, backgroundColor = 
     </p:bg>
   </p:cSld>
 </p:sldLayout>`;
-    
-    // 7. Create ppt/slideMasters/slideMaster1.xml
-    const slideMaster = `<?xml version="1.0" encoding="UTF-8"?>
+
+  const slideMaster = `<?xml version="1.0" encoding="UTF-8"?>
 <p:sldMaster xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <p:cSld>
     <p:bg>
@@ -156,16 +153,14 @@ async function createExamplePptx(outputPath, title, subtitle, backgroundColor = 
     </p:bodyStyle>
   </p:txStyles>
 </p:sldMaster>`;
-    
-    // 8. Create ppt/slideMasters/_rels/slideMaster1.xml.rels
-    const masterRels = `<?xml version="1.0" encoding="UTF-8"?>
+
+  const masterRels = `<?xml version="1.0" encoding="UTF-8"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml" />
   <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme1.xml" />
 </Relationships>`;
-    
-    // 9. Create ppt/theme/theme1.xml
-    const theme = `<?xml version="1.0" encoding="UTF-8"?>
+
+  const theme = `<?xml version="1.0" encoding="UTF-8"?>
 <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
   <a:themeElements>
     <a:clrScheme name="Office">
@@ -223,55 +218,49 @@ async function createExamplePptx(outputPath, title, subtitle, backgroundColor = 
     </a:fmtScheme>
   </a:themeElements>
 </a:theme>`;
-    
-    // Build the PPTX structure
-    const pptFolder = zip.folder("ppt");
-    pptFolder.file("presentation.xml", presentation);
-    pptFolder.folder("_rels").file("presentation.xml.rels", presRels);
-    pptFolder.folder("slides").file("slide1.xml", slide);
-    pptFolder.folder("slideLayouts").file("slideLayout1.xml", slideLayout);
-    const mastersFolder = pptFolder.folder("slideMasters");
-    mastersFolder.file("slideMaster1.xml", slideMaster);
-    mastersFolder.folder("_rels").file("slideMaster1.xml.rels", masterRels);
-    pptFolder.folder("theme").file("theme1.xml", theme);
-    
-    // Generate the PPTX file
-    const content = await zip.generateAsync({ type: "nodebuffer" });
-    fs.writeFileSync(outputPath, content);
-    console.log(`Created example PPTX: ${outputPath}`);
+
+  const pptFolder = zip.folder("ppt");
+  pptFolder.file("presentation.xml", presentation);
+  pptFolder.folder("_rels").file("presentation.xml.rels", presRels);
+  pptFolder.folder("slides").file("slide1.xml", slide);
+  pptFolder.folder("slideLayouts").file("slideLayout1.xml", slideLayout);
+  const mastersFolder = pptFolder.folder("slideMasters");
+  mastersFolder.file("slideMaster1.xml", slideMaster);
+  mastersFolder.folder("_rels").file("slideMaster1.xml.rels", masterRels);
+  pptFolder.folder("theme").file("theme1.xml", theme);
+
+  const content = await zip.generateAsync({ type: "nodebuffer" });
+  fs.writeFileSync(outputPath, content);
+  console.log(`Created example PPTX: ${outputPath}`);
 }
 
-// Create example files
 async function main() {
-    const appDir = path.join(__dirname, '..', 'app');
-    
-    // Ensure app directory exists
-    if (!fs.existsSync(appDir)) {
-        fs.mkdirSync(appDir, { recursive: true });
-    }
-    
-    // Create main example
-    await createExamplePptx(
-        path.join(appDir, 'index.pptx'),
-        'Welcome to PPTSX!',
-        'Start by replacing this file with your own PowerPoint presentation.',
-        '4F81BD' // Blue background
-    );
-    
-    // Create about example
-    const aboutDir = path.join(appDir, 'about');
-    if (!fs.existsSync(aboutDir)) {
-        fs.mkdirSync(aboutDir, { recursive: true });
-    }
-    
-    await createExamplePptx(
-        path.join(aboutDir, 'index.pptx'),
-        'About PPTSX',
-        'PPTSX converts PowerPoint presentations to responsive websites.',
-        '9BBB59' // Green background
-    );
-    
-    console.log('Example PPTX files created successfully!');
+  const appDir = path.join(__dirname, "..", "app");
+
+  if (!fs.existsSync(appDir)) {
+    fs.mkdirSync(appDir, { recursive: true });
+  }
+
+  await createExamplePptx(
+    path.join(appDir, "index.pptx"),
+    "Welcome to PPTSX!",
+    "Start by replacing this file with your own PowerPoint presentation.",
+    "4F81BD", // blue
+  );
+
+  const aboutDir = path.join(appDir, "about");
+  if (!fs.existsSync(aboutDir)) {
+    fs.mkdirSync(aboutDir, { recursive: true });
+  }
+
+  await createExamplePptx(
+    path.join(aboutDir, "index.pptx"),
+    "About PPTSX",
+    "PPTSX converts PowerPoint presentations to responsive websites.",
+    "9BBB59", // green
+  );
+
+  console.log("Example PPTX files created successfully!");
 }
 
 main().catch(console.error);

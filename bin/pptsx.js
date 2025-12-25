@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 import fs from 'fs';
 import path from 'path';
@@ -21,11 +20,9 @@ if (!command || command === '--help' || command === '-h' || command === 'help') 
   console.log('  build                   Build the project for production');
   console.log('  icon <path/to/icon.png> Set the favicon for the project');
   console.log('  --help, -h, help        Show this help message');
-  // Exit with 0 for help/version info (common practice)
   process.exit(0);
 }
 
-// Simple routing for now
 if (command === 'dev') {
   console.log('Starting development server...');
   import('../lib/dev.js').then(module => module.startDevServer());
