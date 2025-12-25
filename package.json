@@ -1,18 +1,51 @@
 {
   "name": "pptsx",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Convert PowerPoint presentations to responsive static websites",
+  "main": "bin/pptsx.js",
   "type": "module",
   "bin": {
     "pptsx": "./bin/pptsx.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Build complete\"",
+    "prepare": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "powerpoint",
+    "pptx",
+    "static",
+    "website",
+    "converter",
+    "presentation",
+    "responsive",
+    "web"
+  ],
+  "author": {
+    "name": "PPTSX Team",
+    "email": "hello@pptsx.com",
+    "url": "https://github.com/yourusername/pptsx"
+  },
   "license": "ISC",
+  "homepage": "https://github.com/yourusername/pptsx#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/pptsx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/pptsx/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "scripts/",
+    "README.md",
+    "package.json"
+  ],
   "dependencies": {
     "chokidar": "^5.0.0",
     "express": "^5.2.1",
