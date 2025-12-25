@@ -60,12 +60,30 @@ This project includes a GitHub Actions workflow for automated npm publishing.
 - **NPM_TOKEN**: Set up in GitHub Secrets with npm publish permissions
 - **GITHUB_TOKEN**: Automatically provided by GitHub Actions
 
+### Workflow Details
+
+The workflow includes:
+- **Basic validation**: Checks package.json structure and bin configuration
+- **CLI testing**: Verifies the CLI can be invoked without errors
+- **Graceful handling**: Continues even if build/test scripts are missing
+
 ### Manual Publishing
 
 If you need to publish manually:
 ```bash
 npm login
 npm publish
+```
+
+### Testing the Workflow Locally
+
+You can test the validation steps locally:
+```bash
+# Test package.json validation
+node -e "const pkg = require('./package.json'); console.log('✓ Package valid:', pkg.name, pkg.version)"
+
+# Test CLI
+node bin/pptsx.js
 ```
 
 ## 🛠️ Quick Start

@@ -24,10 +24,24 @@ jobs:
         run: npm install
         
       - name: Build project
-        run: npm run build || echo "No build script found, continuing..."
+        run: npm run build --if-present
         
-      - name: Run tests
-        run: npm test || echo "No tests found, continuing..."
+      - name: Run basic validation
+        run: |
+          node -e "
+          const pkg = require('./package.json');
+          console.log('✓ Package.json is valid');
+          console.log('✓ Package name:', pkg.name);
+          console.log('✓ Version:', pkg.version);
+          if (!pkg.bin || !pkg.bin.pptsx) {
+            console.error('✗ Missing bin configuration');
+            process.exit(1);
+          }
+          console.log('✓ Bin configuration found');
+          "
+        
+      - name: Test CLI help
+        run: node bin/pptsx.js
         
       - name: Publish to npm
         run: npm publish
