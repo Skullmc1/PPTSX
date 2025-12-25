@@ -16,8 +16,9 @@ console.log(`PPTSX CLI - v1.0.0`);
 if (!command) {
   console.log('Usage: pptsx [command]');
   console.log('Commands:');
-  console.log('  dev    Start the development server');
-  console.log('  build  Build the project for production');
+  console.log('  dev                     Start the development server');
+  console.log('  build                   Build the project for production');
+  console.log('  icon <path/to/icon.png> Set the favicon for the project');
   process.exit(1);
 }
 
@@ -55,6 +56,28 @@ if (command === 'dev') {
   buildRecursive(appDir).then(() => {
       console.log('Build complete.');
   });
+
+} else if (command === 'icon') {
+  const iconPath = args[1];
+  if (!iconPath) {
+    console.error('Error: Please provide a path to the icon file.');
+    process.exit(1);
+  }
+
+  const resolvedPath = path.resolve(process.cwd(), iconPath);
+  if (!fs.existsSync(resolvedPath)) {
+    console.error(`Error: Icon file not found at ${resolvedPath}`);
+    process.exit(1);
+  }
+
+  const appDir = path.join(process.cwd(), 'app');
+  if (!fs.existsSync(appDir)) {
+    fs.mkdirSync(appDir);
+  }
+
+  const destPath = path.join(appDir, 'favicon.png');
+  fs.copyFileSync(resolvedPath, destPath);
+  console.log(`Favicon updated successfully! Copied to ${destPath}`);
 
 } else {
   console.log(`Unknown command: ${command}`);
